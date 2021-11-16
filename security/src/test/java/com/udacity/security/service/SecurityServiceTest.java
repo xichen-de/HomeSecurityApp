@@ -35,18 +35,48 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.udacity.image.service;
+package com.udacity.security.service;
 
-import java.awt.image.BufferedImage;
-import java.util.Random;
+import com.udacity.image.service.ImageService;
+import com.udacity.security.application.StatusListener;
+import com.udacity.security.data.*;
+import junit.framework.TestCase;
+import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-/**
- * Service that tries to guess if an image displays a cat.
- */
-public class FakeImageService implements ImageService {
-    private final Random r = new Random();
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-    public boolean imageContainsCat(BufferedImage image, float confidenceThreshhold) {
-        return r.nextBoolean();
+@ExtendWith(MockitoExtension.class)
+public class SecurityServiceTest {
+    private SecurityService securityService;
+    private Sensor sensor;
+
+    @Mock
+    private StatusListener statusListener;
+
+    @Mock
+    private SecurityRepository securityRepository;
+
+    @Mock
+    private ImageService imageService;
+
+    @BeforeEach
+    void init() {
+        securityService = new SecurityService(securityRepository, imageService);
+        sensor = new Sensor("sensor", SensorType.DOOR);
+
+    }
+
+    // If alarm is armed and a sensor becomes activated, put the system into pending alarm status.
+    @Test
+    public void pendingWhenAlarmArmedAndSensorActivated() {
+        when(securityRepository.getArmingStatus()).thenReturn(ArmingStatus.ARMED_HOME);
+        when(securityRepository.getAlarmStatus()).thenReturn(AlarmStatus.NO_ALARM);
+        securityService.changeSensorActivationStatus(sensor, true);
+        verify(securityRepository).setAlarmStatus(AlarmStatus.PENDING_ALARM);
     }
 }
