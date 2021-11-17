@@ -29,7 +29,7 @@ mvn install
 java -jar security-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```
 
-![Screenshot 2021-11-17 at 21.29.06](README.assets/Screenshot 2021-11-17 at 21.29.06.png)
+![Screenshot 2021-11-17 at 21.29.06](README.assets/example.png)
 
 ## Requirements
 
