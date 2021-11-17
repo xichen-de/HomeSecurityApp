@@ -72,10 +72,9 @@ import java.util.stream.Collectors;
  */
 public class AwsImageService implements ImageService {
 
-    private Logger log = LoggerFactory.getLogger(AwsImageService.class);
-
     //aws recommendation is to maintain only a single instance of client objects
     private static RekognitionClient rekognitionClient;
+    private Logger log = LoggerFactory.getLogger(AwsImageService.class);
 
     public AwsImageService() {
         Properties props = new Properties();

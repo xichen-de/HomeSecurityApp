@@ -44,7 +44,6 @@ import com.udacity.security.data.AlarmStatus;
 import com.udacity.security.data.ArmingStatus;
 import com.udacity.security.data.SecurityRepository;
 import com.udacity.security.data.Sensor;
-import com.udacity.image.service.FakeImageService;
 
 import java.awt.image.BufferedImage;
 import java.util.HashSet;
@@ -66,19 +65,6 @@ public class SecurityService {
     public SecurityService(SecurityRepository securityRepository, ImageService imageService) {
         this.securityRepository = securityRepository;
         this.imageService = imageService;
-    }
-
-    /**
-     * Sets the current arming status for the system. Changing the arming status
-     * may update both the alarm status.
-     *
-     * @param armingStatus
-     */
-    public void setArmingStatus(ArmingStatus armingStatus) {
-        if (armingStatus == ArmingStatus.DISARMED) {
-            setAlarmStatus(AlarmStatus.NO_ALARM);
-        }
-        securityRepository.setArmingStatus(armingStatus);
     }
 
     /**
@@ -108,16 +94,6 @@ public class SecurityService {
 
     public void removeStatusListener(StatusListener statusListener) {
         statusListeners.remove(statusListener);
-    }
-
-    /**
-     * Change the alarm status of the system and notify all listeners.
-     *
-     * @param status
-     */
-    public void setAlarmStatus(AlarmStatus status) {
-        securityRepository.setAlarmStatus(status);
-        statusListeners.forEach(sl -> sl.notify(status));
     }
 
     /**
@@ -173,6 +149,16 @@ public class SecurityService {
         return securityRepository.getAlarmStatus();
     }
 
+    /**
+     * Change the alarm status of the system and notify all listeners.
+     *
+     * @param status
+     */
+    public void setAlarmStatus(AlarmStatus status) {
+        securityRepository.setAlarmStatus(status);
+        statusListeners.forEach(sl -> sl.notify(status));
+    }
+
     public Set<Sensor> getSensors() {
         return securityRepository.getSensors();
     }
@@ -187,5 +173,18 @@ public class SecurityService {
 
     public ArmingStatus getArmingStatus() {
         return securityRepository.getArmingStatus();
+    }
+
+    /**
+     * Sets the current arming status for the system. Changing the arming status
+     * may update both the alarm status.
+     *
+     * @param armingStatus
+     */
+    public void setArmingStatus(ArmingStatus armingStatus) {
+        if (armingStatus == ArmingStatus.DISARMED) {
+            setAlarmStatus(AlarmStatus.NO_ALARM);
+        }
+        securityRepository.setArmingStatus(armingStatus);
     }
 }

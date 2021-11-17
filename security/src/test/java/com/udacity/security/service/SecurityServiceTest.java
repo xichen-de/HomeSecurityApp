@@ -38,40 +38,33 @@
 package com.udacity.security.service;
 
 import com.udacity.image.service.ImageService;
-import com.udacity.security.application.StatusListener;
 import com.udacity.security.data.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.awt.image.BufferedImage;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class SecurityServiceTest {
-    private SecurityService securityService;
-    private Set<Sensor> sensors;
-
-    @Mock
-    private SecurityRepository securityRepository;
-
-    @Mock
-    private ImageService imageService;
-
     @Mock
     BufferedImage bufferedImage;
-
+    private SecurityService securityService;
+    private Set<Sensor> sensors;
+    @Mock
+    private SecurityRepository securityRepository;
+    @Mock
+    private ImageService imageService;
 
     @BeforeEach
     void init() {

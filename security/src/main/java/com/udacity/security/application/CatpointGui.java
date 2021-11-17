@@ -38,9 +38,9 @@
 package com.udacity.security.application;
 
 
+import com.udacity.image.service.FakeImageService;
 import com.udacity.security.data.PretendDatabaseSecurityRepositoryImpl;
 import com.udacity.security.data.SecurityRepository;
-import com.udacity.image.service.FakeImageService;
 import com.udacity.security.service.SecurityService;
 import net.miginfocom.swing.MigLayout;
 
@@ -48,7 +48,7 @@ import javax.swing.*;
 
 /**
  * This is the primary JFrame for the application that contains all the top-level JPanels.
- *
+ * <p>
  * We're not using any dependency injection framework, so this class also handles constructing
  * all our dependencies and providing them to other classes as necessary.
  */
