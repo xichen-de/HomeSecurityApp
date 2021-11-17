@@ -66,8 +66,6 @@ public class SecurityService {
     public SecurityService(SecurityRepository securityRepository, ImageService imageService) {
         this.securityRepository = securityRepository;
         this.imageService = imageService;
-        setAlarmStatus(AlarmStatus.NO_ALARM);
-        setArmingStatus(ArmingStatus.DISARMED);
     }
 
     /**

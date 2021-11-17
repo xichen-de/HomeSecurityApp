@@ -95,12 +95,10 @@ public class SecurityServiceTest {
     }
 
     // 3. If pending alarm and all sensors are inactive, return to no alarm state.
-    @ParameterizedTest
-    @ValueSource(booleans = {true, false})
-    public void noAlarmWhenPendingAlarmAndAllSensorsInactive(boolean sensorActive) {
+    @Test
+    public void noAlarmWhenPendingAlarmAndAllSensorsInactive() {
         when(securityRepository.getAlarmStatus()).thenReturn(AlarmStatus.PENDING_ALARM);
         Sensor sensor = new Sensor("sensor", SensorType.DOOR);
-        sensor.setActive(sensorActive);
         securityService.changeSensorActivationStatus(sensor, false);
         verify(securityRepository).setAlarmStatus(AlarmStatus.NO_ALARM);
     }
