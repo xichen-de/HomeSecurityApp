@@ -55,14 +55,14 @@ import java.io.IOException;
  * by uploading their own picture, and 'scan' the picture, sending it for image analysis
  */
 public class ImagePanel extends JPanel implements StatusListener {
-    private SecurityService securityService;
+    private final SecurityService securityService;
 
-    private JLabel cameraHeader;
-    private JLabel cameraLabel;
+    private final JLabel cameraHeader;
+    private final JLabel cameraLabel;
     private BufferedImage currentCameraImage;
 
-    private int IMAGE_WIDTH = 300;
-    private int IMAGE_HEIGHT = 225;
+    private final int IMAGE_WIDTH = 300;
+    private final int IMAGE_HEIGHT = 225;
 
     public ImagePanel(SecurityService securityService) {
         super();
@@ -100,9 +100,7 @@ public class ImagePanel extends JPanel implements StatusListener {
 
         //button that sends the image to the image service
         JButton scanPictureButton = new JButton("Scan Picture");
-        scanPictureButton.addActionListener(e -> {
-            securityService.processImage(currentCameraImage);
-        });
+        scanPictureButton.addActionListener(e -> securityService.processImage(currentCameraImage));
 
         add(cameraHeader, "span 3, wrap");
         add(cameraLabel, "span 3, wrap");

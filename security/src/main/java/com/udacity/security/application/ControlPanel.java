@@ -53,8 +53,8 @@ import java.util.stream.Collectors;
  */
 public class ControlPanel extends JPanel {
 
-    private SecurityService securityService;
-    private Map<ArmingStatus, JButton> buttonMap;
+    private final SecurityService securityService;
+    private final Map<ArmingStatus, JButton> buttonMap;
 
 
     public ControlPanel(SecurityService securityService) {
@@ -72,12 +72,10 @@ public class ControlPanel extends JPanel {
                 .collect(Collectors.toMap(status -> status, status -> new JButton(status.getDescription())));
 
         //add an action listener to each button that applies its arming status and recolors all the buttons
-        buttonMap.forEach((k, v) -> {
-            v.addActionListener(e -> {
-                securityService.setArmingStatus(k);
-                buttonMap.forEach((status, button) -> button.setBackground(status == k ? status.getColor() : null));
-            });
-        });
+        buttonMap.forEach((k, v) -> v.addActionListener(e -> {
+            securityService.setArmingStatus(k);
+            buttonMap.forEach((status, button) -> button.setBackground(status == k ? status.getColor() : null));
+        }));
 
         //map order above is arbitrary, so loop again in order to add buttons in enum-order
         Arrays.stream(ArmingStatus.values()).forEach(status -> add(buttonMap.get(status)));

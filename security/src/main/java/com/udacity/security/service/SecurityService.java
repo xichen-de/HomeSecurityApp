@@ -59,9 +59,9 @@ import java.util.stream.Collectors;
  */
 public class SecurityService {
 
-    private ImageService imageService;
-    private SecurityRepository securityRepository;
-    private Set<StatusListener> statusListeners = new HashSet<>();
+    private final ImageService imageService;
+    private final SecurityRepository securityRepository;
+    private final Set<StatusListener> statusListeners = new HashSet<>();
 
     public SecurityService(SecurityRepository securityRepository, ImageService imageService) {
         this.securityRepository = securityRepository;
@@ -113,12 +113,6 @@ public class SecurityService {
 
     }
 
-    /**
-     * Internal method for updating the alarm status when a sensor has been deactivated
-     */
-    private void handleActiveSensorDeactivated() {
-    }
-
 
     private void handleActiveSensorActivated() {
         AlarmStatus alarmStatus = getAlarmStatus();
@@ -127,14 +121,8 @@ public class SecurityService {
         }
     }
 
-    private void handleInactiveSensorDeactivated() {
-    }
-
     private void resetAllSensors() {
-        Set<Sensor> sensors = getSensors().stream().map(s -> {
-            s.setActive(false);
-            return s;
-        }).collect(Collectors.toSet());
+        Set<Sensor> sensors = getSensors().stream().peek(s -> s.setActive(false)).collect(Collectors.toSet());
         sensors.forEach(s -> securityRepository.updateSensor(s));
     }
 
@@ -159,7 +147,6 @@ public class SecurityService {
         // deactivate the sensor if it is active
         if (sensor.getActive() && !active) {
             sensor.setActive(false);
-            handleActiveSensorDeactivated();
         }
         // activate the sensor if it is inactive
         else if (!sensor.getActive() && active) {
@@ -168,7 +155,6 @@ public class SecurityService {
         }
         // deactivate the sensor if it is inactive
         else if (!sensor.getActive() && !active) {
-            handleInactiveSensorDeactivated();
         }
         // activate the sensor if it is active
         else {

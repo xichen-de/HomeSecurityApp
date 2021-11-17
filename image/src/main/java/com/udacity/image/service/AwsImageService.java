@@ -74,7 +74,7 @@ public class AwsImageService implements ImageService {
 
     //aws recommendation is to maintain only a single instance of client objects
     private static RekognitionClient rekognitionClient;
-    private Logger log = LoggerFactory.getLogger(AwsImageService.class);
+    private final Logger log = LoggerFactory.getLogger(AwsImageService.class);
 
     public AwsImageService() {
         Properties props = new Properties();
@@ -104,7 +104,7 @@ public class AwsImageService implements ImageService {
      * @return
      */
     public boolean imageContainsCat(BufferedImage image, float confidenceThreshhold) {
-        Image awsImage = null;
+        Image awsImage;
         try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
             ImageIO.write(image, "jpg", os);
             awsImage = Image.builder().bytes(SdkBytes.fromByteArray(os.toByteArray())).build();
@@ -115,7 +115,7 @@ public class AwsImageService implements ImageService {
         DetectLabelsRequest detectLabelsRequest = DetectLabelsRequest.builder().image(awsImage).minConfidence(confidenceThreshhold).build();
         DetectLabelsResponse response = rekognitionClient.detectLabels(detectLabelsRequest);
         logLabelsForFun(response);
-        return response.labels().stream().filter(l -> l.name().toLowerCase().contains("cat")).findFirst().isPresent();
+        return response.labels().stream().anyMatch(l -> l.name().toLowerCase().contains("cat"));
     }
 
     private void logLabelsForFun(DetectLabelsResponse response) {
