@@ -29,7 +29,7 @@ mvn install
 java -jar security-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```
 
-## <img src="/Users/xichen/Desktop/Screenshot 2021-11-17 at 21.29.06.png" alt="Screenshot 2021-11-17 at 21.29.06" style="zoom: 50%;" />
+![Screenshot 2021-11-17 at 21.29.06](README.assets/Screenshot 2021-11-17 at 21.29.06.png)
 
 ## Requirements
 
