@@ -84,9 +84,7 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>3.0.0-M5</version>
                     <configuration>
-                        <argLine>
-                            --add-opens com.udacity.catpoint.security/com.udacity.catpoint.security.service=ALL-UNNAMED
-                        </argLine>
+                        <argLine>--add-opens com.udacity.security/com.udacity.security.service=ALL-UNNAMED</argLine>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -152,4 +150,14 @@
             </plugin>
         </plugins>
     </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>4.4.2.2</version>
+            </plugin>
+        </plugins>
+    </reporting>
 </project>

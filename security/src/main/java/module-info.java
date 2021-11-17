@@ -1,5 +1,5 @@
-module security {
-    requires com.udacity.image.service;
+module com.udacity.security {
+    requires com.udacity.image;
     requires miglayout;
     requires java.desktop;
     requires java.prefs;

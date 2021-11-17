@@ -1,4 +1,4 @@
-module com.udacity.image.service {
+module com.udacity.image {
     requires org.slf4j;
     requires software.amazon.awssdk.auth;
     requires software.amazon.awssdk.core;

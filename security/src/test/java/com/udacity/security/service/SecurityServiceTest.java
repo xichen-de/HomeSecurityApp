@@ -57,13 +57,13 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class SecurityServiceTest {
-    @Mock
-    BufferedImage bufferedImage;
+    private BufferedImage bufferedImage;
     private SecurityService securityService;
     @Mock
-    private SecurityRepository securityRepository;
-    @Mock
     private ImageService imageService;
+
+    @Mock
+    private SecurityRepository securityRepository;
 
     @BeforeEach
     void init() {
@@ -140,6 +140,7 @@ public class SecurityServiceTest {
     public void alarmWhenImageServiceIdentifiesCat() {
         when(securityRepository.getArmingStatus()).thenReturn(ArmingStatus.ARMED_HOME);
         when(imageService.imageContainsCat(any(BufferedImage.class), anyFloat())).thenReturn(true);
+        bufferedImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
         securityService.processImage(bufferedImage);
         verify(securityRepository).setAlarmStatus(AlarmStatus.ALARM);
     }
@@ -149,6 +150,7 @@ public class SecurityServiceTest {
     @Test
     public void noAlarmWhenImageServiceIdentifiesNoCat() {
         when(imageService.imageContainsCat(any(BufferedImage.class), anyFloat())).thenReturn(false);
+        bufferedImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
         securityService.processImage(bufferedImage);
         verify(securityRepository).setAlarmStatus(AlarmStatus.NO_ALARM);
     }
@@ -182,6 +184,7 @@ public class SecurityServiceTest {
     public void alarmWhenCameraShowsCat() {
         when(securityRepository.getArmingStatus()).thenReturn(ArmingStatus.ARMED_HOME);
         when(imageService.imageContainsCat(any(BufferedImage.class), anyFloat())).thenReturn(true);
+        bufferedImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
         securityService.processImage(bufferedImage);
         verify(securityRepository).setAlarmStatus(AlarmStatus.ALARM);
     }
