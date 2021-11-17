@@ -48,6 +48,7 @@ import com.udacity.security.data.Sensor;
 import java.awt.image.BufferedImage;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Service that receives information about changes to the security system. Responsible for
@@ -65,6 +66,8 @@ public class SecurityService {
     public SecurityService(SecurityRepository securityRepository, ImageService imageService) {
         this.securityRepository = securityRepository;
         this.imageService = imageService;
+        setAlarmStatus(AlarmStatus.NO_ALARM);
+        setArmingStatus(ArmingStatus.DISARMED);
     }
 
     /**
@@ -76,8 +79,7 @@ public class SecurityService {
     private void catDetected(Boolean cat) {
         if (cat && getArmingStatus() == ArmingStatus.ARMED_HOME) {
             setAlarmStatus(AlarmStatus.ALARM);
-        }
-        if (!cat && areAllSensorsInactive()) {
+        } else if (!cat && allSensorsInactive()) {
             setAlarmStatus(AlarmStatus.NO_ALARM);
         }
 
@@ -131,12 +133,14 @@ public class SecurityService {
     }
 
     private void resetAllSensors() {
-        Set<Sensor> sensors = securityRepository.getSensors();
-        sensors.forEach(sensor -> sensor.setActive(false));
-        sensors.forEach(sensor -> securityRepository.updateSensor(sensor));
+        Set<Sensor> sensors = getSensors().stream().map(s -> {
+            s.setActive(false);
+            return s;
+        }).collect(Collectors.toSet());
+        sensors.forEach(s -> securityRepository.updateSensor(s));
     }
 
-    private boolean areAllSensorsInactive() {
+    private boolean allSensorsInactive() {
         return getSensors().stream().noneMatch(Sensor::getActive);
     }
 
@@ -172,9 +176,10 @@ public class SecurityService {
         else {
             handleActiveSensorActivated();
         }
+        sensor.setActive(active);
         securityRepository.updateSensor(sensor);
 
-        if (areAllSensorsInactive()) {
+        if (allSensorsInactive()) {
             handleAllSensorsDeactivated();
         }
     }
