@@ -117,13 +117,10 @@ public class SecurityService {
      * Internal method for updating the alarm status when a sensor has been deactivated
      */
     private void handleActiveSensorDeactivated() {
-        ArmingStatus armingStatus = getArmingStatus();
-        AlarmStatus alarmStatus = getAlarmStatus();
     }
 
 
     private void handleActiveSensorActivated() {
-        ArmingStatus armingStatus = getArmingStatus();
         AlarmStatus alarmStatus = getAlarmStatus();
         if (alarmStatus == AlarmStatus.PENDING_ALARM) {
             setAlarmStatus(AlarmStatus.ALARM);
@@ -131,8 +128,6 @@ public class SecurityService {
     }
 
     private void handleInactiveSensorDeactivated() {
-        ArmingStatus armingStatus = getArmingStatus();
-        AlarmStatus alarmStatus = getAlarmStatus();
     }
 
     private void resetAllSensors() {
@@ -142,19 +137,17 @@ public class SecurityService {
     }
 
     private boolean areAllSensorsInactive() {
-        ArmingStatus armingStatus = getArmingStatus();
-        AlarmStatus alarmStatus = getAlarmStatus();
         boolean allSensorsInactive = true;
         for (Sensor s : securityRepository.getSensors()) {
             if (s.getActive()) {
                 allSensorsInactive = false;
+                break;
             }
         }
         return allSensorsInactive;
     }
 
     private void handleAllSensorsDeactivated() {
-        ArmingStatus armingStatus = getArmingStatus();
         AlarmStatus alarmStatus = getAlarmStatus();
         if (alarmStatus == AlarmStatus.PENDING_ALARM) {
             setAlarmStatus(AlarmStatus.NO_ALARM);

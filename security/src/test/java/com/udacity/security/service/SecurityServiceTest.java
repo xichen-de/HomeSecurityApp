@@ -60,7 +60,6 @@ public class SecurityServiceTest {
     @Mock
     BufferedImage bufferedImage;
     private SecurityService securityService;
-    private Set<Sensor> sensors;
     @Mock
     private SecurityRepository securityRepository;
     @Mock
