@@ -137,14 +137,7 @@ public class SecurityService {
     }
 
     private boolean areAllSensorsInactive() {
-        boolean allSensorsInactive = true;
-        for (Sensor s : securityRepository.getSensors()) {
-            if (s.getActive()) {
-                allSensorsInactive = false;
-                break;
-            }
-        }
-        return allSensorsInactive;
+        return getSensors().stream().noneMatch(Sensor::getActive);
     }
 
     private void handleAllSensorsDeactivated() {
@@ -241,5 +234,6 @@ public class SecurityService {
             resetAllSensors();
         }
         securityRepository.setArmingStatus(armingStatus);
+        statusListeners.forEach(StatusListener::sensorStatusChanged);
     }
 }
