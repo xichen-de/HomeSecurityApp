@@ -115,7 +115,8 @@ public class SecurityServiceTest {
         verify(securityRepository, never()).setAlarmStatus(any(AlarmStatus.class));
     }
 
-    // 5. If a sensor is activated while already active and the system is in pending state, change it to alarm state.
+    // 5. If a sensor is activated while already active and the system is in pending state,
+    // change it to alarm state.
     @Test
     public void alarmWhenSensorActivatedAndStatusPending() {
         when(securityRepository.getAlarmStatus()).thenReturn(AlarmStatus.PENDING_ALARM);
@@ -136,6 +137,7 @@ public class SecurityServiceTest {
 
     // 7. If the image service identifies an image containing a cat while the system is armed-home,
     // put the system into alarm status.
+    // Test case 7 is about having the house armed and then getting an image of cat.
     @Test
     public void alarmWhenImageServiceIdentifiesCat() {
         when(securityRepository.getArmingStatus()).thenReturn(ArmingStatus.ARMED_HOME);
@@ -180,12 +182,15 @@ public class SecurityServiceTest {
 
 
     // 11. If the system is armed-home while the camera shows a cat, set the alarm status to alarm.
+    // Test case 11 is about having the house unarmed first, getting an image of cat and then if you
+    // put it on armed again, the alarm should go on.
     @Test
     public void alarmWhenCameraShowsCat() {
-        when(securityRepository.getArmingStatus()).thenReturn(ArmingStatus.ARMED_HOME);
+        when(securityRepository.getArmingStatus()).thenReturn(ArmingStatus.DISARMED);
         when(imageService.imageContainsCat(any(BufferedImage.class), anyFloat())).thenReturn(true);
         bufferedImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
         securityService.processImage(bufferedImage);
+        securityService.setArmingStatus(ArmingStatus.ARMED_HOME);
         verify(securityRepository).setAlarmStatus(AlarmStatus.ALARM);
     }
 }

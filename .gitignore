@@ -1,4 +1,4 @@
 # Project exclude paths
 /image/target/
 /security/target/
-/target/
+/target/.DS_Store
