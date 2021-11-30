@@ -1,6 +1,6 @@
 # Home Security App
 
-This is home security application which can read sensor and camera input and enable/disable alarm accordingly. It is developed and tested on MacOS 12.0.1 with Oracle JDK 17.0.1.
+This is home security application which can read sensor and camera input and enable/disable alarm accordingly. It is developed and tested on Ubuntu 20.04 with JDK 17.0.1.
 
 ## Cloning
 
