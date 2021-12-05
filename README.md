@@ -1,39 +1,10 @@
 # Home Security App
 
+## Description
+
 ![CI](https://github.com/xichen-de/HomeSecurityApp/actions/workflows/java-ci.yml/badge.svg)
 
-This is home security application which can read sensor and camera input and enable/disable alarm accordingly. It is developed and tested on Ubuntu 20.04 with JDK 17.0.1.
-
-## Cloning
-
-```
-git clone https://github.com/xichen-de/HomeSecurityApp.git
-```
-
-## Build and test
-
-Use Maven to compile and run the unit tests:
-
-```
-mvn compile
-mvn test
-```
-
-## Build JAR package
-
-```
-mvn install
-```
-
-## Run
-
-```
-java -jar security-1.0-SNAPSHOT-jar-with-dependencies.jar
-```
-
-![Screenshot 2021-11-17 at 21.29.06](README.assets/example.png)
-
-## Requirements
+This is a tool that simulates a home security application. In this application you can add, delete, enable and disable sensor input, read the image from the camera, and enable and disable alarm accordingly. It was developed with Java Swing and tested with JUnit 5 on Ubuntu 20.04. It implements the following requirements:
 
 1. If alarm is armed *and* a sensor becomes activated, put the system into pending alarm status.
 2. If alarm is armed *and* a sensor becomes activated *and* the system is already pending alarm, set the alarm status to alarm.
@@ -46,3 +17,27 @@ java -jar security-1.0-SNAPSHOT-jar-with-dependencies.jar
 9. If the system is disarmed, set the status to no alarm.
 10. If the system is armed, reset all sensors to inactive.
 11. If the system is armed-home *while* the camera shows a cat, set the alarm status to alarm.
+
+![Screenshot 2021-11-17 at 21.29.06](README.assets/example.png)
+
+## Usage
+
+### Clone the repository with Git
+
+```
+git clone https://github.com/xichen-de/HomeSecurityApp.git
+```
+
+### Build and test using Maven
+
+```
+mvn compile
+mvn test
+```
+
+### Run application
+
+```
+mvn install
+java -jar security-1.0-SNAPSHOT-jar-with-dependencies.jar
+```
